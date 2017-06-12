@@ -59,3 +59,9 @@ def call():
     return service()
 
 
+def test_flatpickr():
+    form = SQLFORM.factory(Field('date', 'date', requires=IS_DATE()),
+                           Field('datetime', 'datetime', requires=IS_DATETIME()),
+                           Field('time', 'time', requires=IS_TIME()))
+    return dict(form=form)
+

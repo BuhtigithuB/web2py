@@ -226,28 +226,46 @@
                 var active = $(this).data('w2p_datetime');
                 var format = !web2py.isUndefined(tformat) ? tformat : datetime_format;
                 if (active === undefined) {
-                    Calendar.setup({
-                        inputField: this,
-                        ifFormat: format,
-                        showsTime: true,
-                        timeFormat: '24'
-                    });
+                    // Calendar.setup({
+                    //     inputField: this,
+                    //     ifFormat: format,
+                    //     showsTime: true,
+                    //     timeFormat: '24'
+                    // });
+                    $(this).flatpickr({
+                        // clickOpens: false,
+                        allowInput: true,
+                        enableTime: true,
+                        time_24hr: true,
+                        enableSeconds: true
+                        }).open();
+                    // Even if it make non sens base on documentation to use .open() without set clickOpens to "false",
+                    // it seems to fix issue that requires to click (focus input) twice to trigger flatpickr popup.
                     $(this).attr('autocomplete', 'off');
                     $(this).data('w2p_datetime', 1);
                     $(this).trigger('click');
                 }
             });
-            var date_format = !web2py.isUndefined(w2p_ajax_date_format) ? w2p_ajax_date_format : '%Y-%m-%d';
+            // var date_format = !web2py.isUndefined(w2p_ajax_date_format) ? w2p_ajax_date_format : '%Y-%m-%d';
+            var date_format = !web2py.isUndefined(w2p_ajax_date_format.replace(/%/g, '')) ? w2p_ajax_date_format.replace(/%/g, '') : 'Y-m-d';
             doc.on('click', 'input.date', function () {
                 var tformat = $(this).data('w2p_date_format');
                 var active = $(this).data('w2p_date');
                 var format = !web2py.isUndefined(tformat) ? tformat : date_format;
                 if (active === undefined) {
-                    Calendar.setup({
-                        inputField: this,
-                        ifFormat: format,
-                        showsTime: false
-                    });
+                    // Calendar.setup({
+                    //     inputField: this,
+                    //     ifFormat: format,
+                    //     showsTime: false
+                    // });
+                    // alert(tformat);
+                    $(this).flatpickr({
+                        // clickOpens: false,
+                        allowInput: true,
+                        dateFormat: format
+                        }).open();
+                    // Even if it make non sens base on documentation to use .open() without set clickOpens to "false",
+                    // it seems to fix issue that requires to click (focus input) twice to trigger flatpickr popup.
                     $(this).data('w2p_date', 1);
                     $(this).attr('autocomplete', 'off');
                     $(this).trigger('click');
@@ -256,9 +274,20 @@
             doc.on('focus', 'input.time', function () {
                 var active = $(this).data('w2p_time');
                 if (web2py.isUndefined(active)) {
-                    $(this).timeEntry({
-                        spinnerImage: ''
-                    }).attr('autocomplete', 'off');
+                    // $(this).timeEntry({
+                    //     spinnerImage: ''
+                    // }).attr('autocomplete', 'off');
+                    $(this).flatpickr({
+                        // clickOpens: false,
+                        allowInput: true,
+                        noCalendar: true,
+                        enableTime: true,
+                        time_24hr: true,
+                        enableSeconds: true
+                        }).open();
+                    // Even if it make non sens base on documentation to use .open() without set clickOpens to "false",
+                    // it seems to fix issue that requires to click (focus input) twice to trigger flatpickr popup.
+                    $(this).attr('autocomplete', 'off');
                     $(this).data('w2p_time', 1);
                 }
             });
